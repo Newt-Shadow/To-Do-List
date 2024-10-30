@@ -9,3 +9,6 @@
     transform: translateY(-10px);
   }
   
+  #boxxx{
+    padding-bottom: 2rem !important;
+  }
