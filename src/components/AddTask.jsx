@@ -1,51 +1,57 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box } from '@mui/material';
-import api from '../api';
+import { Form, Button, Card } from 'react-bootstrap';
+import { TextField } from '@mui/material';
 
-const AddTask = ({ fetchTasks }) => {
+const AddTask = ({ setTasks }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title.trim() || !description.trim()) {
-      alert("Title and Description are required");
-      return;
-    }
 
-    try {
-      await api.post('/tasks', { title, description });
-      setTitle('');
-      setDescription('');
-      fetchTasks(); // Fetch updated task list
-    } catch (error) {
-      console.error('Error adding task:', error);
-      alert('Failed to add task. Please try again.');
-    }
+    const newTask = { title, description };
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.push(newTask);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    setTasks(tasks);
+
+    setTitle('');
+    setDescription('');
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-      <TextField
-        label="Task Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        fullWidth
-        margin="normal"
-        required
-      />
-      <TextField
-        label="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        fullWidth
-        margin="normal"
-        required
-      />
-      <Button type="submit" variant="contained" color="primary">
-        Add Task
-      </Button>
-    </Box>
+    <Card className="shadow-sm p-4 mb-4">
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3">
+          <TextField
+            label="Task Title"
+            variant="outlined"
+            fullWidth
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            sx={{ fontFamily: 'Caveat, cursive' }} // Apply font style
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <TextField
+            label="Task Description"
+            variant="outlined"
+            fullWidth
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            sx={{ fontFamily: 'Caveat, cursive' }} // Apply font style
+          />
+        </Form.Group>
+        <Button 
+          variant="primary" 
+          type="submit" 
+          className="w-100" 
+          sx={{ fontFamily: 'Caveat, cursive' }} // Apply font style to button
+        >
+          Add Task
+        </Button>
+      </Form>
+    </Card>
   );
 };
 

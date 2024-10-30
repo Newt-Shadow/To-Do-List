@@ -19,7 +19,7 @@ const AddTaskModal = ({ open, handleClose, setTasks }) => {
   const [description, setDescription] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission behavior
     if (!title.trim() || !description.trim()) {
       alert("Title and Description are required");
       return;
@@ -40,7 +40,7 @@ const AddTaskModal = ({ open, handleClose, setTasks }) => {
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
-        <Typography variant="h6" component="h2">
+        <Typography variant="h6" component="h2" sx={{ fontFamily: 'Caveat, cursive' }}>
           Add a New Task
         </Typography>
         <form onSubmit={handleSubmit}>
@@ -51,6 +51,7 @@ const AddTaskModal = ({ open, handleClose, setTasks }) => {
             fullWidth
             margin="normal"
             required
+            sx={{ fontFamily: 'Caveat, cursive' }} // Apply font style
           />
           <TextField
             label="Description"
@@ -59,8 +60,14 @@ const AddTaskModal = ({ open, handleClose, setTasks }) => {
             fullWidth
             margin="normal"
             required
+            sx={{ fontFamily: 'Caveat, cursive' }} // Apply font style
           />
-          <Button type="submit" variant="contained" color="primary">
+          <Button 
+            type="submit" 
+            variant="contained" 
+            color="primary"  
+            sx={{ fontFamily: 'Caveat, cursive' }} // Apply font style
+          >
             Add Task
           </Button>
         </form>
